@@ -28,57 +28,6 @@ from urllib2 import urlopen
 """
 class Parser(object):
     """
-    >>> test = Parser(r"http://www.amazon.com/Algorithm-Design-Manual-Steven-
-    Skiena/dp/1849967202/ref=sr_1_1?s=books&ie=UTF8&qid=1294839612&sr=1-1")
-    >>> test.title
-    Title: The Algorithm Design Manual
-    >>> test.getAuthor()
-    Authors: Steven S. Skiena
-    >>> test.getListPrice()
-    List Price: $87.00
-    >>> test.getCrrntPrice()
-    Current Price: $71.97
-    >>> test.getACReview()
-    Average Customer Review: 4.5
-    >>> test.getNumReviews()
-    Number of Reviews: 40
-    >>> test.getCABought()
-    Customers Also Bought:
-    >>> test.getNumLinks()
-    Number of Links: 6
-    http://www.amazon.com/Cracking-Coding-Interview-Fourth-Programming/dp/145157827X/ref=pd_sim_b_1,
-    http://www.amazon.com/Programming-Pearls-2nd-Jon-Bentley/dp/0201657880/ref=pd_sim_b_2,
-    http://www.amazon.com/Introduction-Algorithms-Third-Thomas-Cormen/dp/0262033844/ref=pd_sim_b_3,
-    http://www.amazon.com/Concrete-Mathematics-Foundation-Computer-Science/dp/0201558025/ref=pd_sim_b_4,
-    http://www.amazon.com/Algorithms-Interviews-Adnan-Aziz/dp/1453792996/ref=pd_sim_b_5,
-    http://www.amazon.com/Hackers-Delight-Henry-S-Warren/dp/0201914654/ref=pd_sim_b_6
-    >>> test.getFBT()
-    Frequently Bought Together:
-    Number of Links: 2
-    http://www.amazon.com/Cracking-Coding-Interview-Fourth-Programming/dp/145157827X/ref=pd_bxgy_b_img_b,
-    http://www.amazon.com/Programming-Pearls-2nd-Jon-Bentley/dp/0201657880/ref=pd_bxgy_b_img_c
-    >>> test.getType()
-    Type: Paperback
-    >>> test.getPages()
-    Pages: 736
-    >>> test.getLanguage()
-    Language: English
-    >>> test.getPublisher()
-    Publisher: Springer
-    >>> test.getEdition()
-    Edition: 2nd
-    >>> test.getDate()
-    Date Published: 11/5/2010
-    >>> test.getISBN10()
-    ISBN-10: 1849967202
-    >>> test.getISBN13()
-    ISBN-13: 978-1849967204
-    >>> test.getDims()
-    Product Dimensions: 9.1 x 7 x 1.9 inches
-    >>> test.SWeight()
-    Shipping Weight: 3.1 pounds
-    >>> test.getSubject()
-    Subjects: Mathematics, Algorithms & data structures, Combinatorics & graph theory, Mathematical theory of computation, Numerical analysis, Computers - General Information, Computer Science, Computers / Computer Science, Computers / Programming / General, Discrete Mathematics, Mathematics / Applied, Mathematics / Combinatorics, Mathematics / Discrete Mathematics, Programming - General 
     """
     def __init__(self, in_line):
         if in_line.find("http://") == -1:
@@ -87,17 +36,18 @@ class Parser(object):
             for line in f_ile:
                 link = link + line
         else:
-            link = urlopen(in_line).read()
+            link = in_line
 
-        self.source = html.parse(url).getroot()
+        self.source = html.parse(link).getroot()
 
     @property 
-    def title():
-        return source.get_element_by_id("btAsinTitle").tail()
+    def title(self):
+        res = self.source.get_element_by_id("btAsinTitle").text
+        return "Title: " + res.strip()
 
 if __name__ == "__main__":
     import doctest
-    doctest.testmod()
+    doctest.testfile("test.txt")
 
 ##    
 ##    

@@ -1,0 +1,7 @@
+Doctest File
+    >>> from amazonparse import Parser
+    >>> url = "http://www.amazon.com/Algorithm-Design-Manual-Steven-Skiena/dp/1849967202/ref=sr_1_1?s=books&ie=UTF8&qid=1294839612&sr=1-1"
+    >>> test = Parser(url)
+    >>> test.title
+    'Title: The Algorithm Design Manual'
+

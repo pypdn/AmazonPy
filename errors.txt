@@ -1,0 +1,2 @@
+#format error, comparison on strings
+#API error, lxml.html.parse takes direct url!
