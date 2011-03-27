@@ -14,4 +14,19 @@ Doctest File
     'Author(s): David Mark, Jack Nutting, Jeff LaMarche'
     >>> test.type_
     'Paperback'
+    >>> url = "http://www.amazon.com/Windows-Forensic-Analysis-Toolkit-ebook/dp/B002ZFXTXI/ref=tmm_kin_title_0?ie=UTF8&m=AG56TWVU5XWC2"
+    >>> test = Parser(url)
+    >>> test.title
+    'Windows Forensic Analysis DVD Toolkit'
+    >>> test.author
+    'Harlan Carvey'
+    >>> test.getPrice()
+    '49.46'
+    >>> test.alsoBought
+    'http://www.amazon.com/File-System-Forensic-Analysis-ebook/dp/B000OZ0N9O/ref=pd_sim_kinc_1?ie=UTF8&m=AG56TWVU5XWC2'
+    'http://www.amazon.com/Malware-Analysts-Cookbook-Techniques-ebook/dp/B0047DWCMA/ref=pd_sim_kinc_2?ie=UTF8&m=AG56TWVU5XWC2'
+    'http://www.amazon.com/Windows-Registry-Forensics-Advanced-ebook/dp/B004JN0CDO/ref=pd_sim_kinc_3?ie=UTF8&m=AG56TWVU5XWC2'
+    'http://www.amazon.com/Hacking-The-Next-Generation-ebook/dp/B002OFAY5A/ref=pd_sim_kinc_4?ie=UTF8&m=AG56TWVU5XWC2'
+    'http://www.amazon.com/Hacking-Exposed-Computer-Forensics-ebook/dp/B002R0JXF4/ref=pd_sim_kinc_5?ie=UTF8&m=AG56TWVU5XWC2'
+    'http://www.amazon.com/Malware-Forensics-Investigating-Analyzing-ebook/dp/B001KU7XOK/ref=pd_sim_kinc_6?ie=UTF8&m=AG56TWVU5XWC2'
 

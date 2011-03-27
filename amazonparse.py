@@ -10,17 +10,8 @@
     -Avg Review
     -Number of reviews
     -Items the customer also bought (w/ links)
-    -Items frequently bought w/book (w/likes)
     -Format
-    -Pages
-    -Language
     -Publisher
-    -Edition
-    -Date Published
-    -ISBN (10/13)
-    -Product Dimensions
-    -Shipping weight
-    -Subjects
 """
 from __future__ import print_function
 from lxml import html
@@ -48,7 +39,7 @@ class Parser(object):
             groups. author, format and title etc. are children of the same
             parent"""
         res = self.source.get_element_by_id("btAsinTitle").text
-        return "Title: " + res.strip()
+        return res.strip()
 
     @property
     def author(self):
@@ -59,7 +50,7 @@ class Parser(object):
               .getparent()
         res = res.iterlinks()
         res_list = [link[0].text_content() for link in res]
-        fmt_res = "Author(s): " + ", ".join(res_list)
+        fmt_res = ", ".join(res_list)
         return fmt_res
 
     @property
@@ -69,6 +60,36 @@ class Parser(object):
         subelement accesss starts from zero"""
         res = self.source.get_element_by_id("btAsinTitle")[0].text_content()
         return res.strip("[]")
+
+    def getPrice(self):
+        """"""
+        res = self.source.get_element_by_id("priceBlock") \
+              .xpath(".//tr")
+
+        price_list = []
+        for row in res:
+            if len(row) == 2:
+                price_list.append(row.text_content().strip().split(":"))
+
+        price_list = [i.strip().partition("\n")[0] for elem in price_list for i in elem]
+
+        from_list = price_list
+        
+##        def pair(test):
+##            yield (test.pop(), test.pop())
+##
+##        price_list = [tup for tup in pair(from_list.reverse())]
+        
+        return price_list
+
+    @property
+    def alsoBought(self):
+        res = self.source.get_element_by_id("purchaseButtonWrapper") \
+            .xpath(".//ul")
+        links = res[0].iterlinks()
+        res = [elem[2] for elem in links
+               if elem[0].get("title") != None]
+        return res
 
 if __name__ == "__main__":
     import doctest
