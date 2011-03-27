@@ -4,4 +4,14 @@ Doctest File
     >>> test = Parser(url)
     >>> test.title
     'Title: The Algorithm Design Manual'
+    >>> test.author
+    'Author(s): Steven S. Skiena'
+    >>> url = "http://www.amazon.com/Beginning-iPhone-Development-Exploring-iOS/dp/143023024X/ref=sr_1_3?s=books&ie=UTF8&qid=1301183297&sr=1-3"
+    >>> test = Parser(url)
+    >>> test.title
+    'Title: Beginning iPhone 4 Development: Exploring the iOS SDK'
+    >>> test.author
+    'Author(s): David Mark, Jack Nutting, Jeff LaMarche'
+    >>> test.type_
+    'Paperback'
 

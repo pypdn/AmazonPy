@@ -1,2 +1,3 @@
+#Just some of the big errors that have stumped us so far.
 #format error, comparison on strings
 #API error, lxml.html.parse takes direct url!
