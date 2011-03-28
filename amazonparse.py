@@ -15,6 +15,7 @@
 """
 from __future__ import print_function
 from lxml import html
+import re
 
 
 class Parser(object):
@@ -61,7 +62,7 @@ class Parser(object):
         res = self.source.get_element_by_id("btAsinTitle")[0].text_content()
         return res.strip("[]")
 
-    def getPrice(self):
+    def getPrices(self):
         """"""
         res = self.source.get_element_by_id("priceBlock") \
               .xpath(".//tr")
@@ -73,14 +74,59 @@ class Parser(object):
 
         price_list = [i.strip().partition("\n")[0] for elem in price_list for i in elem]
 
-        from_list = price_list
         
-##        def pair(test):
-##            yield (test.pop(), test.pop())
-##
-##        price_list = [tup for tup in pair(from_list.reverse())]
-        
-        return price_list
+        def pair(test):
+            if test:
+                yield (test.pop(), test.pop())
+
+        price_list.reverse()
+        res = [tup for tup in pair(price_list)]
+        return res
+
+    @property
+    def listPrice(self):
+        res = self.getPrices()
+        if self.type_ == "Kindle":
+            label = "Digital List Price"
+        else:
+            label = "List Price"
+            
+        for elem in res:
+            if elem[0].find(label) != -1:
+                return elem[1].replace("$", "")
+    @property
+    def crrntPrice(self):
+        res = self.getPrices()
+        if self.type_ == "Kindle":
+            label = "Kindle Price"
+        else:
+            label = "Price"
+            
+        for elem in res:
+            if elem[0].find(label) != -1:
+                return elem[1].replace("$", "")
+
+    @property
+    def numReviews(self):
+        res = self.source.find_class("crAvgStars")
+        for elem in res:
+            check = re.search(r'(?P<reviews>\d+) customer reviews',
+                              elem.text_content())
+            if check:
+                return str(check.group('reviews'))
+
+        return None
+    
+    @property
+    def avgReview(self):
+        res = self.source.find_class("crAvgStars")
+        for elem in res:
+            check = re.search(r'(?P<avg>\d.\d) out of 5',
+                              elem.text_content())
+            if check:
+                return str(check.group('avg'))
+
+        return None
 
     @property
     def alsoBought(self):
@@ -89,7 +135,7 @@ class Parser(object):
         links = res[0].iterlinks()
         res = [elem[2] for elem in links
                if elem[0].get("title") != None]
-        return res
+        return " \n ".join(res)
 
 if __name__ == "__main__":
     import doctest
