@@ -50,7 +50,7 @@ class Parser(object):
         res = self.source.get_element_by_id("btAsinTitle").getparent() \
               .getparent()
         res = res.iterlinks()
-        res_list = [link[0].text_content() for link in res]
+        res_list = [link[0].text for link in res]
         fmt_res = ", ".join(res_list)
         return fmt_res
 
